@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-// const api = require('../api');
+const api = require('../api');
 const { errorMiddleware } = require('../middlewares/error');
 const middlewareMonitoring = require('../middlewares/monitoring');
 const swaggerUi = require('swagger-ui-express');
@@ -33,7 +33,7 @@ app.use('/', healthRoute);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
 
 // mount api routes
-// app.use('/api', api);
+app.use('/api', api);
 
 // if error is not an instanceOf APIError, convert it.
 app.use(errorMiddleware.converter);
