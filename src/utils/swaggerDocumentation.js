@@ -1,4 +1,4 @@
-const API_SERVER_URL = 'localhost:5000'
+const API_SERVER_URL = require('../config/vars').swagger_url
 
 module.exports = {
   openapi: '3.0.1',
