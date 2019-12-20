@@ -5,7 +5,7 @@ Promise = require('bluebird'); // eslint-disable-line no-global-assign
 const app = require('./config/express');
 const startupBoot = require('./boot');
 const { logger } = require('./utils/logger');
-// const { startCron } = require('./services/cron');
+const { startCron } = require('./services/cron');
 const { mongo_db_uri, mongo_db_args } = require('./config/vars');
 const database = require('./database')
 
@@ -25,7 +25,7 @@ async.waterfall(startupTasks, (err) => {
 });
 
 // starts cron-job to fetch data
-// startCron();
+startCron();
 
 /**
 * Exports express
