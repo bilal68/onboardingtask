@@ -34,6 +34,80 @@ module.exports = {
     }
   ],
   paths: {
+    '/api/v1/rates/latest': {
+      get: {
+        tags: ['Rates'],
+        description: 'Get Latest Rates',
+        operationId: 'getLatestRate',
+        responses: {
+          '200': {
+            description: 'Latest rate was obtained',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Latest Rate'
+                }
+              }
+            }
+          }
+        }
+      },
+    },
+    '/api/v1/rates': {
+      get: {
+        tags: ['Rates'],
+        description: 'Get Rates by Duration',
+        operationId: 'getRateByDuration',
+        parameters: [
+          {
+            name: 'from',
+            in: 'query',
+            schema: {
+              type: 'string',
+              format: 'date-time',
+              default: '2018-03-20T09:12:28Z'
+            },
+            required: true
+          },
+          {
+            name: 'to',
+            in: 'query',
+            schema: {
+              type: 'string',
+              format: 'date-time',
+              default: '2018-03-25T09:12:28Z'
+            },
+            required: true
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Users were obtained',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Rates by Duration'
+                }
+              }
+            }
+          },
+          '400': {
+            description: 'Missing parameters',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                },
+                example: {
+                  message: 'some parameter missing',
+                  errorCode: 'missing_parameters'
+                }
+              }
+            }
+          }
+        }
+      },
+    },
     '/api/v1/frequency': {
       get: {
         tags: ['Cron Frequency'],
@@ -90,6 +164,57 @@ module.exports = {
   },
   components: {
     schemas: {
+      'Latest Rate': {
+        type: 'object',
+        properties: {
+          responseCode: { type: 'integer', example: 200 },
+          responseMessage: { type: 'string' },
+          response: { $ref: '#/components/schemas/Rate' }
+        }
+      },
+      'Rates by Duration': {
+        type: 'object',
+        properties: {
+          responseCode: { type: 'integer', example: 200 },
+          responseMessage: { type: 'string' },
+          response: {
+            type: 'array',
+            items: {
+              $ref: '#/components/schemas/Rate'
+            }
+          }
+        }
+      },
+      Rate: {
+        type: 'object',
+        properties: {
+          currencyName: {
+            type: 'String',
+            description: 'Name of currency',
+            example: 'US Dollar'
+          },
+          symbol: {
+            type: 'String',
+            description: 'Symbol of currency',
+            example: '$'
+          },
+          price: {
+            type: 'Double',
+            description: 'Exchange price for ONE bitcoin',
+            example: 7871.80
+          },
+          createdAt: {
+            type: 'Timestamp',
+            description: 'Database object creation time',
+            example: '2019-12-20T14:58:45.505Z'
+          },
+          id: {
+            type: 'String',
+            description: 'database id for the object',
+            example: '5dfce1a58154eb97993bf570'
+          },
+        }
+      },
       Frequency: {
         type: 'object',
         properties: {
