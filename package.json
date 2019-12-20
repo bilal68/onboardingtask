@@ -1,0 +1,42 @@
+{
+  "name": "search4ex",
+  "version": "1.0.0",
+  "description": "An code assessment task from Search-metrics",
+  "main": "index.js",
+  "scripts": {
+    "start": "cross-env node src/index.js",
+    "dev": "NODE_ENV=dev nodemon src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/naeem_astro/search4ex.git"
+  },
+  "keywords": [
+    "React",
+    "Express",
+    "NodeJS",
+    "MongoDB",
+    "Jest",
+    "Jest-extended"
+  ],
+  "author": "Naeem",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://bitbucket.org/naeem_astro/search4ex/issues"
+  },
+  "homepage": "https://bitbucket.org/naeem_astro/search4ex#readme",
+  "dependencies": {
+    "concurrently": "^4.0.1",
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ],
+    "testEnvironment": "node"
+  }
+}
