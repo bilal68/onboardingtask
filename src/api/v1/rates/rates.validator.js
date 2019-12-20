@@ -40,6 +40,8 @@ const ratesValidator = {
   type: 'get',
   joiSchema: {
     query: Joi.object({
+      from: Joi.date().iso().required(),
+      to: Joi.date().iso().greater(Joi.ref('from')).required(),
       pageNumber: Joi.number().integer().default(1).min(1),
       pageSize: Joi.number().integer().min(10).max(100).default(20),
       sort: Joi.string().valid(['desc', 'asc']).default('desc')
