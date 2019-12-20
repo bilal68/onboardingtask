@@ -17,9 +17,7 @@ exports.latest = async (req, res, next) => {
 
 exports.list = async (req, res, next) => {
   res.status(httpStatus.OK);
-  const { from, to } = req.query;
-
-  const response = await list(from, to);
+  const response = await list(req.query);
   return res.json({
     responseCode: httpStatus.OK,
     responseMessage: 'OK',

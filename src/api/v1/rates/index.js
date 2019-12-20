@@ -1,7 +1,7 @@
 const express = require('express');
 const validate = require('express-validation');
 const controller = require('./rates.controller');
-const validator = require('./rates.validator');
+const { latestRatesValidator, ratesValidator } = require('./rates.validator');
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ const router = express.Router();
  *
  * @apiError (Bad Request 400)  ValidationError
  */
-router.route('/latest').get(validate(validator.joiSchema), controller.latest);
+router.route('/latest').get(validate(latestRatesValidator.joiSchema), controller.latest);
 
 
 /**
@@ -37,6 +37,6 @@ router.route('/latest').get(validate(validator.joiSchema), controller.latest);
  *
  * @apiError (Bad Request 400)  ValidationError Some parameters may contain invalid values
  */
-router.route('/').get(validate(validator.joiSchema), controller.list);
+router.route('/').get(validate(ratesValidator.joiSchema), controller.list);
 
 module.exports = router;
