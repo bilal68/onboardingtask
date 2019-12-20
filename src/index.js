@@ -1,4 +1,6 @@
 const express = require("express");
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocumentation = require('./utils/swaggerDocumentation');
 
 const app = express();
 
@@ -9,6 +11,9 @@ app.get("/api/rates", (req, res) => {
   ];
   res.json(customers);
 });
+
+// mount SwaggerUi 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocumentation));
 
 const port = process.env.PORT || 5000;
 
