@@ -17,6 +17,7 @@ startupBoot.forEach((boot) => {
   startupTasks.push(async.apply(boot, app));
 });
 
+/* istanbul ignore next */
 async.waterfall(startupTasks, (err) => {
   if (err) {
     logger.error('Unable to start server - please restart the service', err);
