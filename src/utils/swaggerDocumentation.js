@@ -113,7 +113,7 @@ module.exports = {
         ],
         responses: {
           '200': {
-            description: 'Users were obtained',
+            description: 'Rates were obtained',
             content: {
               'application/json': {
                 schema: {
