@@ -44,7 +44,7 @@ const ratesValidator = {
       to: Joi.date().iso().greater(Joi.ref('from')).required(),
       pageNumber: Joi.number().integer().default(1).min(1),
       pageSize: Joi.number().integer().min(10).max(100).default(20),
-      sort: Joi.string().valid(['desc', 'asc']).default('desc')
+      sort: Joi.string().valid(['desc', 'asc']).default('asc')
     }),
     body: {},
     response: {
