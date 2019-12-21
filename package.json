@@ -62,6 +62,8 @@
     "mock-express-response": "^0.2.2",
     "mockgoose": "^8.0.4",
     "nodemon": "^2.0.2",
+    "sinon": "^7.5.0",
+    "sinon-mongoose": "^2.3.0",
     "supertest": "^4.0.2"
   },
   "jest": {

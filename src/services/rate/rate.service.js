@@ -11,7 +11,7 @@ const list = async (queryParams) => {
   const sortOrder = sort === 'desc' ? -1 : 1;
   const queryBetween = { "createdAt": { "$gte": from, "$lt": to } }
   const rates = await Rate.find(queryBetween).skip(skip).limit(pageSize).sort({ createdAt: sortOrder });;
-  return { rates, from, to };
+  return rates;
 };
 
 module.exports = {
