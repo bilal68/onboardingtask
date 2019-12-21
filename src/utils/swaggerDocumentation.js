@@ -62,22 +62,53 @@ module.exports = {
           {
             name: 'from',
             in: 'query',
+            required: true,
             schema: {
               type: 'string',
               format: 'date-time',
               default: '2018-03-20T09:12:28Z'
-            },
-            required: true
+            }
           },
           {
             name: 'to',
             in: 'query',
+            required: false,
             schema: {
               type: 'string',
               format: 'date-time',
               default: '2018-03-25T09:12:28Z'
+            }
+          },
+          {
+            name: 'sort',
+            in: 'query',
+            required: false,
+            schema: {
+              type: 'string',
+              enum: ['desc', 'asc'],
+              default: 'desc'
             },
-            required: true
+          },
+          {
+            name: 'pageNumber',
+            in: 'query',
+            required: false,
+            schema: {
+              type: 'integer',
+              default: 1
+            },
+          },
+          {
+            name: 'pageSize',
+            description: 'The number of items to return. *Min:10, Max:100*',
+            in: 'query',
+            required: false,
+            schema: {
+              type: 'integer',
+              minimum: 10,
+              maximum: 100,
+              default: 20
+            },
           }
         ],
         responses: {
