@@ -10,6 +10,15 @@ Demonstration of Requirements understanding, proposing a solution and implementa
 * CI/CD Demonstration
 * Version 1.0.0
 
+### Problem Statement
+![Screenshot](screenshots/Screenshot-1.png)
+
+### Proposed Solution
+![Screenshot](screenshots/search.png)
+
+### Deployment
+![Screenshot](screenshots/deployment.png)
+
 
 ### Application Flow ###
 
@@ -28,6 +37,23 @@ To setup the project locally you need to clone this repo, from `master` or `deve
 Please sync and resolve dependencies by using
 - `npm install`
 
+### Start App
+- `npm run dev`
+- You may access the app on [`http://localhost:3000`](http://localhost:5000/api-docs)
+
+
+
+### Build Docker Image
+- `docker build -t search4ex .`
+
+
+### Run Docker Image
+- Run `docker run -d -p 5000:5000 search4ex`
+- You may access the running docker app on [`http://localhost:5000/api-docs`](http://localhost:5000/api-docs)
+
+
+### Stop Docker Container
+- Run `docker kill {container-id}`
 
 ### Pre-reqs
 
@@ -92,10 +118,13 @@ Please sync and resolve dependencies by using
 
 The project can be distributed using a docker image or as git-repo.
 
+## Limitation
+- [M-Lab](www.mlab.com) is a free service up to 500mb data volume.
+- Using Bitbucket Free resources for pipeline executions.
+- Using Heroku free tier, all the apps in free tiers as required to shut-down at least 6 hours a day.
+- I am using [assertible](https://assertible.com/) to keep the app alive on Heroko.
+
 
 ## Contribution guidelines ##
 
 - forks are always appreciated
-
-## Screenshots ##
-- *TBD*
