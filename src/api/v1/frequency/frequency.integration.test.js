@@ -4,13 +4,23 @@ const httpStatus = require('http-status');
 const app = require('../../..');
 
 describe('API /api/v1/frequency', () => {
-  let body;
+  let body = {};
 
-  beforeEach(() => {
-    body = {};
-  });
+  // let server, agent;
+  // beforeEach((done) => {
+  //   server = app.listen(4000, (err) => {
+  //     if (err) return done(err);
+  //     agent = request.agent(server);
+  //     done();
+  //   });
+  //   body = {};
+  // });
 
-  afterEach(() => { });
+  // afterEach((done) => {
+  //   return server && server.close(done);
+  // });
+
+  afterAll(() => { }, 1000);
 
   it('GET: should integrate api /frequency', async () => {
     return await request(app)

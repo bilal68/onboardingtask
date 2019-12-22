@@ -1,5 +1,6 @@
 const cron = require("node-cron");
 const axios = require('axios');
+const { logger } = require('../../utils/logger');
 const Rate = require("../../models/Rate");
 const { ARRAY_FREQUENCIES, RATES_API_URL } = require('../../utils/constants');
 
@@ -8,24 +9,26 @@ let task = null;
 const startCron = async () => {
   const durationIndex = (process.env['DURATION_CRON_INDEX']) ? parseInt(process.env['DURATION_CRON_INDEX']) : 0;
   const frequency = ARRAY_FREQUENCIES[durationIndex];
-  console.log(`Running CRON for min(s):${frequency} @ ${new Date()}`);
+  logger.info(`Running CRON for min(s):${frequency} @ ${new Date()}`);
   await fetchRates();
-  task = cron.schedule(`*/${frequency} * * * *`, async () => {
-    console.log(`Running CRON for min(s):${frequency} @ ${new Date()}`);
+  task = await cron.schedule(`*/${frequency} * * * *`, async () => {
+    logger.info(`Running CRON for min(s):${frequency} @ ${new Date()}`);
     await fetchRates();
   });
   return true;
 };
 
+
 const fetchRates = async () => {
-  axios.get(RATES_API_URL).then(response => {
-    const usd = response.data.USD;
-    const rate = new Rate({ currencyName: 'US Dollar', symbol: usd.symbol, price: usd.last });
-    rate.save(err => {
-      if (err) console.log(`Error persisting rate @ ${new Date()} \n ${err}`);
-    });
-  }).catch(err => console.log(err));
+  return await axios.get(RATES_API_URL).then(async (response) => {
+    return await persistRate(response.data.USD);
+  }).catch(err => { logger.error(err); return false });
 };
+
+const persistRate = async (dataUSD) => {
+  const rate = new Rate({ currencyName: 'US Dollar', symbol: dataUSD.symbol, price: dataUSD.last });
+  return await rate.save().then(doc => true).catch(err => false);
+}
 
 const stopCron = async () => {
   if (task)
@@ -40,5 +43,7 @@ const restartCron = async () => {
 module.exports = {
   startCron,
   stopCron,
-  restartCron
+  restartCron,
+  fetchRates,
+  persistRate
 };

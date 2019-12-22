@@ -4,13 +4,23 @@ const httpStatus = require('http-status');
 const app = require('../../../../src');
 
 describe('GET /api/v1/rates', () => {
-  let body;
+  let body = {};
 
-  beforeEach(() => {
-    body = {};
-  });
+  // let server, agent;
+  // beforeEach((done) => {
+  //   server = app.listen(4001, (err) => {
+  //     if (err) return done(err);
+  //     agent = request.agent(server);
+  //     done();
+  //   });
+  //   body = {};
+  // });
 
-  afterEach(() => { });
+  // afterEach((done) => {
+  //   return server && server.close(done);
+  // });
+
+  afterAll(() => { }, 1000);
 
   it('should integrate api /rates/latest', async () => {
     return await request(app)

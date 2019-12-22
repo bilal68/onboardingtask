@@ -1,39 +1,39 @@
 /* eslint-disable arrow-body-style */
-const httpStatus = require('http-status');
 const service = require('./frequency.service');
+const db = require('../../database/index')
 
 
 describe('Service - frequency', () => {
 
-  beforeEach(() => { });
+  beforeEach(() => {
+  });
 
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  it('should return the frequency', () => {
+  it('should return the frequency', async () => {
     process.env.DURATION_CRON_INDEX = '0';
-    return service.getFrequency().then((response) => {
+    return await service.getFrequency().then((response) => {
       expect(response).toBeObject();
       expect(response).toContainKey('minutes');
     });
   });
 
-  it('should return the frequency without evn', () => {
-    return service.getFrequency().then((response) => {
+  it('should return the frequency without evn', async () => {
+    return await service.getFrequency().then((response) => {
       expect(response).toBeObject();
       expect(response).toContainKey('minutes');
     });
   });
 
-
-  it('should set the frequency', () => {
-    return service.setFrequency(15).then((response) => {
+  it('should set the frequency', async (done) => {
+    db.connect().then(() => done()).catch(done);
+    return await service.setFrequency(15).then(async (response) => {
       expect(response).toBeObject();
       expect(response).toContainKey('minutes');
+
+      db.disconnect().then(() => done()).catch(done);
     });
   });
-
-
-
 });
