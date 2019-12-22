@@ -59,6 +59,8 @@ definitions:
 pipelines:
   tags:
     v*:
+      - step: *build-test
+      - step: *sonar_scan
       - step:
           name: Deploy Production
           trigger: manual
