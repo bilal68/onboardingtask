@@ -12,13 +12,11 @@ definitions:
         script:
           - export NODE_ENV=test
           - export PORT=5000
-          - export MONGO_DB_URI=my.mongo.db.uri
-          - export SWAGGER_SERVER_URL=localhost:5000
-          - node -v
-          - npm -v        
+          - export MONGO_DB_URI=$MONGO_DB_URI
+          - export SWAGGER_SERVER_URL=localhost:5000                 
           - npm config set cache /root/.npm-cache
           - npm install --pure-lockfile
-          - sleep 10
+          - sleep 5
           - npm test
         artifacts:
           - coverage/**

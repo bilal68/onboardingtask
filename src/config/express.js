@@ -7,7 +7,6 @@ const { errorMiddleware } = require('../middlewares/error');
 const middlewareMonitoring = require('../middlewares/monitoring');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocumentation = require('../utils/swaggerDocumentation');
-const { ARRAY_FREQUENCIES } = require('../utils/constants')
 
 /**
 * Express instance
