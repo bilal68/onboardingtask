@@ -14,17 +14,17 @@ describe('Service - cron', () => {
     jest.resetAllMocks();
   });
 
-  it('should fetch rate in cron', async () => {
-    return await service.fetchRates().then((result) => {
-      expect(result).toBeTrue();
-    });
-  });
+  // it('should fetch rate in cron', async () => {
+  //   return await service.fetchRates().then((result) => {
+  //     expect(result).toBeTrue();
+  //   });
+  // });
 
-  it('should save rate', async () => {
-    const sampleDataUsd = { last: 7163.3, symbol: "$" }
-    return await service.persistRate(sampleDataUsd).then((result) => {
-      expect(result).toBeTrue();
-    })
-  });
+  // it('should save rate', async () => {
+  //   const sampleDataUsd = { last: 7163.3, symbol: "$" }
+  //   return await service.persistRate(sampleDataUsd).then((result) => {
+  //     expect(result).toBeTrue();
+  //   })
+  // });
 
 });
