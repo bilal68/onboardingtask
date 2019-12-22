@@ -1,4 +1,4 @@
-# Search4ex #
+# Search4Ex #
 
 Demonstration of Requirements understanding, proposing a solution and implementation by using the latest tools and techniques. The code is based on Google Android SDK.
 
@@ -10,14 +10,14 @@ Demonstration of Requirements understanding, proposing a solution and implementa
 * CI/CD Demonstration
 * Version 1.0.0
 
-### Problem Statement
-![Screenshot](screenshots/Screenshot-1.png)
+### Problem Statement:
+<img alt="Problem Statement" width="75%" src="screenshots/Screenshot-1.png">
 
-### Proposed Solution
-![Screenshot](screenshots/search.png)
+### Proposed Solution:
+![Proposed Solution](screenshots/search.png)
 
-### Deployment
-![Screenshot](screenshots/deployment.png)
+### Deployment:
+![Deployment](screenshots/deployment.png)
 
 
 ### Application Flow ###
