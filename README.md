@@ -22,7 +22,7 @@ Demonstration of Requirements understanding, proposing a solution and implementa
 
 ### Application Flow ###
 
-- A: Open [doc](https://search4ex.heroku.com) page in the browser
+- A: Open [doc](https://search4ex.heroku.com/api-docs) page in the browser
 - B: Check API's
 - C: User can set the CRON frequency from a given set of values
 - D: User can check the latest exchange rate of Bitcoin against US Dollar
@@ -117,6 +117,12 @@ Please sync and resolve dependencies by using
 ## Distribution ##
 
 The project can be distributed using a docker image or as git-repo.
+
+## Deployment ##
+- Access the App from [https://search4ex.heroku.com/api-docs](https://search4ex.heroku.com/api-docs)
+- Access the code analysis report: [SonarCloud](https://sonarcloud.io/dashboard?id=Naeem_search4ex)
+- Heroku App Logs: Run `heroku logs -n 200 -a search4ex`
+
 
 ## Limitation
 - [M-Lab](www.mlab.com) is a free service up to 500mb data volume.
