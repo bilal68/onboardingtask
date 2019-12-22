@@ -11,7 +11,7 @@ Demonstration of Requirements understanding, proposing a solution and implementa
 * Version 1.0.0
 
 ### Problem Statement:
-<img alt="Problem Statement" width="75%" src="screenshots/Screenshot-1.png">
+![Problem Statement](screenshots/solution.png)
 
 ### Proposed Solution:
 ![Proposed Solution](screenshots/search.png)
