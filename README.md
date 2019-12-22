@@ -1,4 +1,5 @@
 # Search4Ex #
+[![npm version](http://img.shields.io/npm/v/REPO.svg?style=flat)](https://npmjs.org/package/REPO "View this project on npm")
 
 Demonstration of Requirements understanding, proposing a solution and implementation by using the latest tools and techniques. The code is based on Google Android SDK.
 
@@ -19,6 +20,10 @@ Demonstration of Requirements understanding, proposing a solution and implementa
 ### Deployment:
 ![Deployment](screenshots/deployment.png)
 
+### Development Cycle:
+- Distributes the whole development into Issues
+- Go through the [Bitbucket Issues Page](https://bitbucket.org/naeem_astro/search4ex/issues)
+
 
 ### Application Flow ###
 
@@ -31,11 +36,15 @@ Demonstration of Requirements understanding, proposing a solution and implementa
 ## How do I get set up? ##
 
 ### How to set up ###
-To setup the project locally you need to clone this repo, from `master` or `develop` branch or some latest `TAG`
+To set-up the project locally you need to clone this repo, from `master` or `develop` branch or some latest `TAG`
 
 ### Configuration ###
+
 Please sync and resolve dependencies by using
 - `npm install`
+
+Set environment variables:
+- `cp .env.example .env`
 
 ### Start App
 - `npm run dev`
@@ -133,4 +142,4 @@ The project can be distributed using a docker image or as git-repo.
 
 ## Contribution guidelines ##
 
-- forks are always appreciated
+- Forks are always appreciated
