@@ -2,7 +2,6 @@
 const MockReq = require('mock-express-request');
 const MockRes = require('mock-express-response');
 const httpStatus = require('http-status');
-const { APIError } = require('../../../utils/APIError');
 const { getFrequency, setFrequency } = require('../../../services/frequency');
 const controller = require('./frequency.controller');
 

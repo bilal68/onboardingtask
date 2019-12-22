@@ -1,5 +1,4 @@
 /* eslint-disable arrow-body-style */
-const httpStatus = require('http-status');
 const service = require('./cron.service');
 const db = require('../../database/index')
 
