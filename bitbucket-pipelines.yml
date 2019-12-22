@@ -73,28 +73,28 @@ pipelines:
       - step: *build_publish_docker_image
       - step: *deploy_heroku
       
-  # branches:
-  #   master:
-  #     - step: *build-test
-  #     - step: *sonar_scan
-  #     - step:
-  #         name: Deploy Staging
-  #         trigger: manual
-  #         deployment: staging
-  #         script:
-  #           - echo "Deploy Staging"
+  branches:
+    master:
+      - step: *build-test
+      - step: *sonar_scan
+      - step:
+          name: Deploy Staging
+          trigger: manual
+          deployment: staging
+          script:
+            - echo "Deploy Staging"
 
-  #     - step: *build_publish_docker_image
-  #     - step: *deploy_heroku
+      - step: *build_publish_docker_image
+      - step: *deploy_heroku
 
-  #   develop:
-  #     - step: *build-test
-  #     - step: *sonar_scan
-  #     - step:
-  #         name: Deploy Test
-  #         deployment: test
-  #         script:
-  #           - echo "Deploy Test"
+    develop:
+      - step: *build-test
+      - step: *sonar_scan
+      - step:
+          name: Deploy Test
+          deployment: test
+          script:
+            - echo "Deploy Test"
 
 
 options:
