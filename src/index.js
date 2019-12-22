@@ -1,15 +1,35 @@
-const express = require("express");
+const async = require('async');
 
-const app = express();
+// make bluebird default Promise
+Promise = require('bluebird'); // eslint-disable-line no-global-assign
+const app = require('./config/express');
+const startupBoot = require('./boot');
+const { logger } = require('./utils/logger');
+const { startCron } = require('./services/cron');
+const { mongo_db_uri, mongo_db_args } = require('./config/vars');
+const database = require('./database')
 
-app.get("/api/rates", (req, res) => {
-  const customers = [
-    { id: 1, currency: "USD", price: 2.4 },
-    { id: 2, currency: "BC", price: 2.4 }
-  ];
-  res.json(customers);
+// Connect to Database
+database.connect(mongo_db_uri, mongo_db_args)
+
+const startupTasks = [];
+startupBoot.forEach((boot) => {
+  startupTasks.push(async.apply(boot, app));
 });
 
-const port = process.env.PORT || 5000;
+/* istanbul ignore next */
+async.waterfall(startupTasks, (err) => {
+  if (err) {
+    logger.error('Unable to start server - please restart the service', err);
+    process.exit(1);
+  }
+});
 
-app.listen(port, () => console.log(`Server Started on port: ${port}`));
+// starts cron-job to fetch data
+startCron();
+
+/**
+* Exports express
+* @public
+*/
+module.exports = app;
