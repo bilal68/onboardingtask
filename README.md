@@ -1,4 +1,10 @@
 # Search4Ex #
+----
+- _Original repository can be found at [search4ex@bitbucket](https://bitbucket.org/naeem_astro/search4ex)_
+- _[Bitbucket Pipelines](https://bitbucket.org/naeem_astro/search4ex/addon/pipelines/home)_
+- _[Bitbucket Deployments](https://bitbucket.org/naeem_astro/search4ex/addon/pipelines/deployments)_
+- _For Heroku App Logs Run in terminal:_ `heroku logs -n 200 -a search4ex`
+----
 
 Demonstration of Requirements understanding, proposing a solution and implementation by using the latest tools and techniques. The code is based on Google Android SDK.
 
