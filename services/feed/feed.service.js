@@ -2,49 +2,25 @@ const moment = require("moment")
 const _ = require("lodash")
 const fs = require("fs")
 const parse = require("csv-parse")
-const { unix } = require("moment")
+const { response } = require("express")
 const staticBasePath = "./bitcoin1.csv"
+const { DATE_TIME_FORMAT } = require("./feed.constants")
 
 const getData = async (rangeStart, rangeEnd, filePath = staticBasePath) => {
   try {
     const start = moment(rangeStart)
     const end = moment(rangeEnd)
 
-    const result = await readFile(
-      start,
-      end,
-      filePath
-    )
+    const result = await readFile(start, end, filePath)
     if (end.diff(start, "hour") <= 24) {
       const groupedData = _.groupBy(result, (o) => moment(o.dateTime).hours())
-      return (response = {
-        count: Object.keys(groupedData).length,
-        firstObject: groupedData[Object.keys(groupedData)[0]],
-        lastObject:
-          groupedData[
-            Object.keys(groupedData)[Object.keys(groupedData).length - 1]
-          ],
-      })
+      const finalRes = await responseFormatter(groupedData, start, end)
+      return finalRes
     } else {
-      console.log(result, (o) => moment(o.time).format("MMM DD YYYY"))
-      const groupedData = _.groupBy(result, (o) => o.time)
-      console.log(groupedData[0])
-      return (response = {
-        count: Object.keys(groupedData).length,
-        firstObject: groupedData[Object.keys(groupedData)[0]],
-        lastObject:
-          groupedData[
-            Object.keys(groupedData)[Object.keys(groupedData).length - 1]
-          ],
-      })
+      const groupedData = _.groupBy(result, (o) => moment(o.dateTime).format("YYYY-MM-DD"))
+      const finalRes = await responseFormatter(groupedData, start, end, true)
+      return finalRes
     }
-    // if (result) {
-    //   return (response = {
-    //     count: result.length,
-    //     firstObject: result[0],
-    //     lastObject: result[result.length - 1],
-    //   })
-    // }
   } catch (error) {
     throw new Error(error)
   }
@@ -57,10 +33,6 @@ const readFile = async (start, end, filePath) => {
       .pipe(parse({ delimiter: "," }))
       .on("data", function (csvrow) {
         const rowDateTime = moment.unix(csvrow[0])
-        // console.log(rowDateTime)
-        // console.log(start)
-        // console.log(rowDateTime >= start &&
-        //     rowDateTime <= end)
         if (rowDateTime >= start && rowDateTime <= end) {
           csvData.push({
             time: csvrow[0],
@@ -78,6 +50,35 @@ const readFile = async (start, end, filePath) => {
       })
       .on("error", (error) => reject(error))
   })
+}
+
+const responseFormatter = async (groupedData, start, end, dayWise = false) => {
+  const response = []
+  for (let key in groupedData) {
+    // console.log(Object.keys(groupedData[key]).length)
+    // console.log(Object.keys(groupedData[key])[Object.keys(groupedData[key]).length - 1])
+    // console.log(
+    //   Object.keys(groupedData[key])[Object.keys(groupedData[key]).length - 1]
+    // )
+    // console.log(moment(start).startOf("day").format(DATE_TIME_FORMAT))
+    const obj = {
+      intervalStart: dayWise
+        ? moment(key).startOf("day").format(DATE_TIME_FORMAT)
+        : moment(start)
+            .set({ hour: key, minute: 0, second: 0 })
+            .format(DATE_TIME_FORMAT),
+      intervalEnd: dayWise
+        ? moment(key).endOf("day").format(DATE_TIME_FORMAT)
+        : moment(end)
+            .set({ hour: key, minute: 59, second: 59 })
+            .format(DATE_TIME_FORMAT),
+      count: groupedData[key].length,
+      firstObject: groupedData[key][0],
+      lastObject: groupedData[key][Object.keys(groupedData[key]).length - 1],
+    }
+    response.push(obj)
+  }
+  return response
 }
 
 module.exports = {
