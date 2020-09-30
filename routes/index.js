@@ -6,6 +6,6 @@ const feed = require("./feed")
 router.get("/", function (req, res, next) {
   res.render("index", { title: "Express" })
 })
-// router.use("/feed", feed)
+router.use("/feed", feed)
 
 module.exports = router

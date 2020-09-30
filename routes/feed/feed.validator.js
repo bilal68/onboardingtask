@@ -2,13 +2,11 @@ const Joi = require("joi")
 
 const post = {
   name: "feed",
-  path: "/feed",
+  path: "/",
   type: "post",
   joiSchema: {
     query: Joi.object({
         rangeStart: Joi.string().required()
-        // .valid(ARRAY_FREQUENCIES)
-        // .default(ARRAY_FREQUENCIES[0]),
     }),
     body: {},
     response: {
