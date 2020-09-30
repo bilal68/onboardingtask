@@ -5,6 +5,7 @@ const parse = require("csv-parse")
 const staticBasePath = "./bitcoin1.csv"
 
 const getData = async (rangeStart, rangeEnd) => {
+    console.log('in get data')
   try {
     const csvData = []
     const start = moment(rangeStart).unix()

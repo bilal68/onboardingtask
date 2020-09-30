@@ -1,7 +1,11 @@
 const Joi = require("joi")
-const middleware = (schema, property) => {
+const middleware = function (schema) {
   return (req, res, next) => {
-    const { error } = Joi.validate(req.body, schema)
+    let myObj = {
+      username: req.body.rangeStart,
+      password: req.body.rangeEnd,
+    }
+    const { error } = schema.validate(req.body)
     const valid = error == null
 
     if (valid) {
