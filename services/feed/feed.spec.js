@@ -74,4 +74,9 @@ describe("responseFormatter FUNC TEST", () => {
       })
     )
   })
+
+  it("it should return empty array", async () => {
+    const result = await service.responseFormatter({}, start, end)
+    expect(result).toEqual([])
+  })
 })
