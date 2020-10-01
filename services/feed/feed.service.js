@@ -11,6 +11,7 @@ const getData = async (rangeStart, rangeEnd, filePath) => {
     const end = moment(rangeEnd)
 
     const result = await readFile(start, end, filePath)
+    if(result.length <= 0) return []
     if (end.diff(start, "hour") <= 24) {
       const groupedData = _.groupBy(result, (o) => moment(o.dateTime).hours())
       const finalRes = await responseFormatter(groupedData, start, end)

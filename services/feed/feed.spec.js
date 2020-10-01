@@ -14,6 +14,15 @@ describe("getdata FUNC TEST", () => {
     )
     expect(typeof result).toBe("object")
   })
+
+  it("it should return empty array", async () => {
+    const result = await service.getData(
+      "2015-06-15T00:00:00",
+      "2015-07-15T23:59:59",
+      "./bitcoin1.csv"
+    )
+    expect(typeof result).toBe("object")
+  })
 })
 
 describe("readFile FUNC TEST", () => {
