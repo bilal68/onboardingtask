@@ -55,12 +55,6 @@ const readFile = async (start, end, filePath) => {
 const responseFormatter = async (groupedData, start, end, dayWise = false) => {
   const response = []
   for (let key in groupedData) {
-    // console.log(Object.keys(groupedData[key]).length)
-    // console.log(Object.keys(groupedData[key])[Object.keys(groupedData[key]).length - 1])
-    // console.log(
-    //   Object.keys(groupedData[key])[Object.keys(groupedData[key]).length - 1]
-    // )
-    // console.log(moment(start).startOf("day").format(DATE_TIME_FORMAT))
     const obj = {
       intervalStart: dayWise
         ? moment(key).startOf("day").format(DATE_TIME_FORMAT)
@@ -83,4 +77,6 @@ const responseFormatter = async (groupedData, start, end, dayWise = false) => {
 
 module.exports = {
   getData,
+  readFile,
+  responseFormatter
 }
