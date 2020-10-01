@@ -2,8 +2,7 @@ const moment = require("moment")
 const _ = require("lodash")
 const fs = require("fs")
 const parse = require("csv-parse")
-const { response } = require("express")
-const staticBasePath = "./bitcoin1.csv"
+const staticBasePath = "./bitcoin.csv"
 const { DATE_TIME_FORMAT } = require("./feed.constants")
 
 const getData = async (rangeStart, rangeEnd, filePath = staticBasePath) => {
