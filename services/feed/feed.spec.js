@@ -1,5 +1,7 @@
 const service = require("./feed.service")
 
+// jest.mock('./feed.service')
+
 describe("getdata FUNC TEST", () => {
   it("it should return some response object", async () => {
     const result = await service.getData(
@@ -12,13 +14,15 @@ describe("getdata FUNC TEST", () => {
     expect(result.response).toHaveProperty("count")
   })
 
-  it("it should return error -> wrong file", async () => {
-    const result = await service.getData(
-      "2015-06-15T00:00:00",
-      "2015-07-15T23:59:59",
-      "./bitcoin5555.csv"
-    )
+  it("it should return error -> wrong start date", async () => {
+    const result = await service.getData("", "2015-07-15T23:59:59")
     expect(result.responseCode).toBe(404)
+    expect(result.responseMessage).toBe("Failure")
   })
 
+  it("it should return error -> wrong end date", async () => {
+    const result = await service.getData("2015-06-15T00:00:00", "")
+    expect(result.responseCode).toBe(404)
+    expect(result.responseMessage).toBe("Failure")
+  })
 })
