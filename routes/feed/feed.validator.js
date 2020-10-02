@@ -1,12 +1,12 @@
 const Joi = require("joi")
-
+const moment = require("moment")
 const post = {
   name: "feed",
   path: "/feed",
   type: "post",
   joiSchema: Joi.object({
-    rangeStart: Joi.string().required(),
-    rangeEnd: Joi.string().required(),
+    rangeStart: Joi.date().required(),
+    rangeEnd: Joi.date().required(),
   }),
   // response: {
   //   200: {

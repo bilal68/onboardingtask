@@ -1,82 +1,39 @@
 const moment = require("moment")
 const _ = require("lodash")
-const fs = require("fs")
-const parse = require("csv-parse")
-const { response } = require("express")
-const staticBasePath = "./bitcoin1.csv"
-const { DATE_TIME_FORMAT } = require("./feed.constants")
+const httpStatus = require("http-status")
+const { readData } = require("../readData/readData.service")
 
-const getData = async (rangeStart, rangeEnd, filePath = staticBasePath) => {
+const getData = async (rangeStart, rangeEnd, filePath) => {
+  console.log("getData====>Actual")
   try {
+    if (!moment(rangeStart).isValid() || !moment(rangeEnd).isValid())
+      throw new Error("Date is in valid")
     const start = moment(rangeStart)
     const end = moment(rangeEnd)
-
-    const result = await readFile(start, end, filePath)
-    if (end.diff(start, "hour") <= 24) {
-      const groupedData = _.groupBy(result, (o) => moment(o.dateTime).hours())
-      const finalRes = await responseFormatter(groupedData, start, end)
-      return finalRes
-    } else {
-      const groupedData = _.groupBy(result, (o) => moment(o.dateTime).format("YYYY-MM-DD"))
-      const finalRes = await responseFormatter(groupedData, start, end, true)
-      return finalRes
+    const result = await readData(start, end, filePath)
+    if (result.length <= 0) return []
+    return {
+      responseCode: httpStatus.OK,
+      responseMessage: "OK",
+      response: {
+        count: result.length,
+        firstObject: result[0],
+        lastObject: result[result.length - 1],
+      },
     }
   } catch (error) {
-    throw new Error(error)
-  }
-}
-
-const readFile = async (start, end, filePath) => {
-  const csvData = []
-  return new Promise((resolve, reject) => {
-    fs.createReadStream(filePath)
-      .pipe(parse({ delimiter: "," }))
-      .on("data", function (csvrow) {
-        const rowDateTime = moment.unix(csvrow[0])
-        if (rowDateTime >= start && rowDateTime <= end) {
-          csvData.push({
-            time: csvrow[0],
-            close: csvrow[1],
-            high: csvrow[2],
-            low: csvrow[3],
-            open: csvrow[4],
-            volume: csvrow[5],
-            dateTime: rowDateTime,
-          })
-        }
-      })
-      .on("end", function () {
-        resolve(csvData)
-      })
-      .on("error", (error) => reject(error))
-  })
-}
-
-const responseFormatter = async (groupedData, start, end, dayWise = false) => {
-  const response = []
-  for (let key in groupedData) {
-    const obj = {
-      intervalStart: dayWise
-        ? moment(key).startOf("day").format(DATE_TIME_FORMAT)
-        : moment(start)
-            .set({ hour: key, minute: 0, second: 0 })
-            .format(DATE_TIME_FORMAT),
-      intervalEnd: dayWise
-        ? moment(key).endOf("day").format(DATE_TIME_FORMAT)
-        : moment(end)
-            .set({ hour: key, minute: 59, second: 59 })
-            .format(DATE_TIME_FORMAT),
-      count: groupedData[key].length,
-      firstObject: groupedData[key][0],
-      lastObject: groupedData[key][Object.keys(groupedData[key]).length - 1],
+    return {
+      responseCode: 404,
+      responseMessage: "Failure",
+      response: {
+        error: {
+          message: error.message,
+        },
+      },
     }
-    response.push(obj)
   }
-  return response
 }
 
 module.exports = {
   getData,
-  readFile,
-  responseFormatter
 }
