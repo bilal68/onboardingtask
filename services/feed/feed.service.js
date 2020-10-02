@@ -1,17 +1,18 @@
 const moment = require("moment")
 const _ = require("lodash")
-const fs = require("fs")
-const parse = require("csv-parse")
-const staticBasePath = "./bitcoin.csv"
+const httpStatus = require("http-status")
+const { readData } = require("../readData/readData.service")
 
 const getData = async (rangeStart, rangeEnd, filePath) => {
+  console.log("getData====>Actual")
   try {
     const start = moment(rangeStart)
     const end = moment(rangeEnd)
-
-    const result = await readFile(start, end, filePath)
+    const result = await readData(start, end, filePath)
     if (result.length <= 0) return []
     return {
+      responseCode: httpStatus.OK,
+      responseMessage: "OK",
       response: {
         count: result.length,
         firstObject: result[0],
@@ -19,36 +20,18 @@ const getData = async (rangeStart, rangeEnd, filePath) => {
       },
     }
   } catch (error) {
-    throw new Error(error)
+    return {
+      responseCode: 404,
+      responseMessage: "Failure",
+      response: {
+        error: {
+          message: error.message,
+        },
+      },
+    }
   }
-}
-
-const readFile = async (start, end, filePath = staticBasePath) => {
-  const csvData = []
-  return new Promise((resolve, reject) => {
-    fs.createReadStream(filePath)
-      .pipe(parse({ delimiter: "," }))
-      .on("data", function (csvrow) {
-        const rowDateTime = moment.unix(csvrow[0])
-        if (rowDateTime >= start && rowDateTime <= end) {
-          csvData.push({
-            time: csvrow[0],
-            close: csvrow[1],
-            high: csvrow[2],
-            low: csvrow[3],
-            open: csvrow[4],
-            volume: csvrow[5]
-          })
-        }
-      })
-      .on("end", function () {
-        resolve(csvData)
-      })
-      .on("error", (error) => reject(error))
-  })
 }
 
 module.exports = {
   getData,
-  readFile
 }
