@@ -5,7 +5,7 @@ const staticBasePath = "./bitcoin.csv"
 
 const readData = async (start, end, filePath = staticBasePath) => {
   try {
-      console.log("Called")
+    console.log("Called")
     if (!fs.existsSync(filePath)) throw new Error("File not exist")
     const csvData = []
     return new Promise((resolve, reject) => {
@@ -21,6 +21,7 @@ const readData = async (start, end, filePath = staticBasePath) => {
               low: csvrow[3],
               open: csvrow[4],
               volume: csvrow[5],
+              dateTime: rowDateTime,
             })
           }
         })

@@ -1,7 +1,15 @@
-let { getData } = require("./feed.service")
+let { getData, responseFormatter } = require("./feed.service")
+const {
+  groupedDataDaywise,
+  groupedDataHourwise,
+  respnseOfDataFormatter,
+} = require("../../utils/dummyData")
 jest.mock("./feed.service")
 
 describe("getdata FUNC TEST", () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
   it("it should return some response object", async () => {
     getData.mockImplementation(() =>
       Promise.resolve({
@@ -72,5 +80,52 @@ describe("getdata FUNC TEST", () => {
     const result = await getData("2015-06-15T00:00:00", "")
     expect(result.responseCode).toBe(404)
     expect(result.responseMessage).toBe("Failure")
+  })
+})
+
+describe("responseFormatter FUNC TEST", () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+  const start = "2016-06-15T00:00:00"
+  const end = "2020-07-15T23:59:59"
+  it("it should return formatted day wise grouped data", async () => {
+    responseFormatter.mockImplementation(() =>
+      Promise.resolve(respnseOfDataFormatter)
+    )
+    const result = await responseFormatter(groupedDataDaywise, start, end, true)
+    expect(typeof result).toBe("object")
+    expect(result.response).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ intervalStart: expect.any(String) }),
+        expect.objectContaining({ intervalEnd: expect.any(String) }),
+        expect.objectContaining({ count: expect.any(Number) }),
+        expect.objectContaining({ firstObject: expect.any(Object) }),
+        expect.objectContaining({ lastObject: expect.any(Object) }),
+      ])
+    )
+  })
+
+  it("it should return formatted hour wise grouped data", async () => {
+    responseFormatter.mockImplementation(() =>
+      Promise.resolve(respnseOfDataFormatter)
+    )
+    const result = await responseFormatter(groupedDataHourwise, start, end)
+    expect(typeof result).toBe("object")
+    expect(result.response).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ intervalStart: expect.any(String) }),
+        expect.objectContaining({ intervalEnd: expect.any(String) }),
+        expect.objectContaining({ count: expect.any(Number) }),
+        expect.objectContaining({ firstObject: expect.any(Object) }),
+        expect.objectContaining({ lastObject: expect.any(Object) }),
+      ])
+    )
+  })
+
+  it("it should return empty array", async () => {
+    responseFormatter.mockImplementation(() => Promise.resolve([]))
+    const result = await responseFormatter({}, start, end)
+    expect(result).toEqual([])
   })
 })

@@ -2,6 +2,9 @@ const { readData } = require("./readData.service")
 jest.mock("./readData.service")
 
 describe("readData FUNC TEST", () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
   it("it should return error -> wrong file", async () => {
     readData.mockImplementation(() =>
       Promise.resolve({
@@ -9,7 +12,7 @@ describe("readData FUNC TEST", () => {
         responseMessage: "Failure",
         response: {
           error: {
-            message: 'File not found',
+            message: "File not found",
           },
         },
       })
