@@ -1,11 +1,9 @@
 var createError = require("http-errors")
 var express = require("express")
-var path = require("path")
 var logger = require("morgan")
 const bodyParser = require("body-parser")
 
 var indexRouter = require("./routes/index")
-const middleware = require("./middlewares/middleware")
 var app = express()
 
 // view engine setup
