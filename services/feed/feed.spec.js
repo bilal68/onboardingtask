@@ -85,33 +85,8 @@ describe("responseFormatter FUNC TEST", () => {
     )
     const result = await responseFormatter(groupedDataDaywise, start, end, true)
     expect(typeof result).toBe("object")
-    expect(result.response).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ intervalStart: expect.any(String) }),
-        expect.objectContaining({ intervalEnd: expect.any(String) }),
-        expect.objectContaining({ count: expect.any(Number) }),
-        expect.objectContaining({
-          firstObject: expect.objectContaining({
-            time: expect.any(String),
-            close: expect.any(String),
-            high: expect.any(String),
-            low: expect.any(String),
-            open: expect.any(String),
-            volume: expect.any(String),
-          }),
-        }),
-        expect.objectContaining({
-          lastObject: expect.objectContaining({
-            time: expect.any(String),
-            close: expect.any(String),
-            high: expect.any(String),
-            low: expect.any(String),
-            open: expect.any(String),
-            volume: expect.any(String),
-          }),
-        }),
-      ])
-    )
+    expect(result.responseCode).toBe(200)
+    expect(result.response).toEqual(respnseOfDataFormatter.response)
   })
 
   it("it should return formatted hour wise grouped data", async () => {
@@ -120,33 +95,8 @@ describe("responseFormatter FUNC TEST", () => {
     )
     const result = await responseFormatter(groupedDataHourwise, start, end)
     expect(typeof result).toBe("object")
-    expect(result.response).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({ intervalStart: expect.any(String) }),
-        expect.objectContaining({ intervalEnd: expect.any(String) }),
-        expect.objectContaining({ count: expect.any(Number) }),
-        expect.objectContaining({
-          firstObject: expect.objectContaining({
-            time: expect.any(String),
-            close: expect.any(String),
-            high: expect.any(String),
-            low: expect.any(String),
-            open: expect.any(String),
-            volume: expect.any(String),
-          }),
-        }),
-        expect.objectContaining({
-          lastObject: expect.objectContaining({
-            time: expect.any(String),
-            close: expect.any(String),
-            high: expect.any(String),
-            low: expect.any(String),
-            open: expect.any(String),
-            volume: expect.any(String),
-          }),
-        }),
-      ])
-    )
+    expect(result.responseCode).toBe(200)
+    expect(result.response).toEqual(respnseOfDataFormatter.response)
   })
 
   it("it should return empty array", async () => {
