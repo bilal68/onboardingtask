@@ -4,12 +4,22 @@ const {
   groupedDataHourwise,
   respnseOfDataFormatter,
 } = require("../../utils/dummyData")
+const { get } = require("../../routes/feed/feed.controller")
 jest.mock("./feed.service")
 
 describe("getdata FUNC TEST", () => {
   beforeEach(() => {
     jest.resetAllMocks()
   })
+  const errorObject = {
+    responseCode: 404,
+    responseMessage: "Failure",
+    response: {
+      error: {
+        message: "Date is in-valid",
+      },
+    },
+  }
   it("it should return some response object", async () => {
     getData.mockImplementation(() =>
       Promise.resolve({
@@ -49,37 +59,17 @@ describe("getdata FUNC TEST", () => {
   })
 
   it("it should return error -> wrong start date", async () => {
-    getData.mockImplementation(() =>
-      Promise.resolve({
-        responseCode: 404,
-        responseMessage: "Failure",
-        response: {
-          error: {
-            message: "Date is in-valid",
-          },
-        },
-      })
+    getData.mockImplementation(() => Promise.reject(errorObject))
+    await expect(getData("", "2015-07-15T23:59:59")).rejects.toEqual(
+      errorObject
     )
-    const result = await getData("", "2015-07-15T23:59:59")
-    expect(result.responseCode).toBe(404)
-    expect(result.responseMessage).toBe("Failure")
   })
 
   it("it should return error -> wrong end date", async () => {
-    getData.mockImplementation(() =>
-      Promise.resolve({
-        responseCode: 404,
-        responseMessage: "Failure",
-        response: {
-          error: {
-            message: "Date is in-valid",
-          },
-        },
-      })
+    getData.mockImplementation(() => Promise.reject(errorObject))
+    await expect(getData("2015-06-15T00:00:00", "")).rejects.toEqual(
+      errorObject
     )
-    const result = await getData("2015-06-15T00:00:00", "")
-    expect(result.responseCode).toBe(404)
-    expect(result.responseMessage).toBe("Failure")
   })
 })
 
@@ -100,8 +90,26 @@ describe("responseFormatter FUNC TEST", () => {
         expect.objectContaining({ intervalStart: expect.any(String) }),
         expect.objectContaining({ intervalEnd: expect.any(String) }),
         expect.objectContaining({ count: expect.any(Number) }),
-        expect.objectContaining({ firstObject: expect.any(Object) }),
-        expect.objectContaining({ lastObject: expect.any(Object) }),
+        expect.objectContaining({
+          firstObject: expect.objectContaining({
+            time: expect.any(String),
+            close: expect.any(String),
+            high: expect.any(String),
+            low: expect.any(String),
+            open: expect.any(String),
+            volume: expect.any(String),
+          }),
+        }),
+        expect.objectContaining({
+          lastObject: expect.objectContaining({
+            time: expect.any(String),
+            close: expect.any(String),
+            high: expect.any(String),
+            low: expect.any(String),
+            open: expect.any(String),
+            volume: expect.any(String),
+          }),
+        }),
       ])
     )
   })
@@ -117,8 +125,26 @@ describe("responseFormatter FUNC TEST", () => {
         expect.objectContaining({ intervalStart: expect.any(String) }),
         expect.objectContaining({ intervalEnd: expect.any(String) }),
         expect.objectContaining({ count: expect.any(Number) }),
-        expect.objectContaining({ firstObject: expect.any(Object) }),
-        expect.objectContaining({ lastObject: expect.any(Object) }),
+        expect.objectContaining({
+          firstObject: expect.objectContaining({
+            time: expect.any(String),
+            close: expect.any(String),
+            high: expect.any(String),
+            low: expect.any(String),
+            open: expect.any(String),
+            volume: expect.any(String),
+          }),
+        }),
+        expect.objectContaining({
+          lastObject: expect.objectContaining({
+            time: expect.any(String),
+            close: expect.any(String),
+            high: expect.any(String),
+            low: expect.any(String),
+            open: expect.any(String),
+            volume: expect.any(String),
+          }),
+        }),
       ])
     )
   })

@@ -6,7 +6,7 @@ const bodyParser = require("body-parser")
 var indexRouter = require("./routes/index")
 var app = express()
 
-// view engine setup
+// body-parser setup
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 

@@ -5,24 +5,24 @@ describe("readData FUNC TEST", () => {
   beforeEach(() => {
     jest.resetAllMocks()
   })
+  const errorObject = {
+    responseCode: 404,
+    responseMessage: "Failure",
+    response: {
+      error: {
+        message: "File not found",
+      },
+    },
+  }
   it("it should return error -> wrong file", async () => {
-    readData.mockImplementation(() =>
-      Promise.resolve({
-        responseCode: 404,
-        responseMessage: "Failure",
-        response: {
-          error: {
-            message: "File not found",
-          },
-        },
-      })
-    )
-    const result = await readData(
-      "2015-06-15T00:00:00",
-      "2015-07-15T23:59:59",
-      "./bitcoin5555.csv"
-    )
-    expect(result.responseCode).toBe(404)
+    readData.mockImplementation(() => Promise.reject(errorObject))
+    await expect(
+      readData(
+        "2015-06-15T00:00:00",
+        "2015-07-15T23:59:59",
+        "./bitcoin5555.csv"
+      )
+    ).rejects.toEqual(errorObject)
   })
 
   it("it should return some object", async () => {
